@@ -1,0 +1,3 @@
+[report]
+omit =
+    dsdev_utils/_version.py
