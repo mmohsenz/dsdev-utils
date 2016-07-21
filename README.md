@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/dsdev-utils.svg)](http://badge.fury.io/py/dsdev-utils) [![Build Status](https://travis-ci.org/JMSwag/dsdev-utils.svg?branch=master)](https://travis-ci.org/JMSwag/dsdev-utils) [![Build status](https://ci.appveyor.com/api/projects/status/curpmuvrrc79p6y2?svg=true)](https://ci.appveyor.com/project/JMSwag/dsdev-utils)
+[![PyPI version](https://badge.fury.io/py/dsdev-utils.svg)](http://badge.fury.io/py/dsdev-utils) [![Build Status](https://travis-ci.org/JMSwag/dsdev-utils.svg?branch=master)](https://travis-ci.org/JMSwag/dsdev-utils) [![Build status](https://ci.appveyor.com/api/projects/status/sepw766w1qrw8wa6?svg=true)](https://ci.appveyor.com/project/JMSwag/dsdev-utils)
 
 # DSDev Utils
 ##### Various utility function I seem to always use
