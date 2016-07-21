@@ -12,7 +12,7 @@ deps:
 	pip install -r dev/requirements.txt --upgrade
 
 pypi:
-	python setup.py sdist
+	python setup.py sdist_wheel
 
 register:
 	python setup.py register -r pypi

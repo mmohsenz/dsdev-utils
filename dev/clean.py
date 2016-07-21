@@ -20,7 +20,7 @@ def check_x(x):
 
     def bad_dir(d):
         bad = ['__pycache__', 'htmlcov', 'build',
-               'dist', 'JMS_Utils.egg-info']
+               'dist', 'dsdev_utils.egg-info']
         if os.path.basename(d) in bad:
             return True
         return False

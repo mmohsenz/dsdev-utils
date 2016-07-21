@@ -13,6 +13,6 @@ cover
 
 dist
 
-dsdev-utils.egg-info
-
 hash-test.txt
+
+dsdev_utils.egg-info
