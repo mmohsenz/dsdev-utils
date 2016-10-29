@@ -83,14 +83,14 @@ def remove_any(path):
                 log.debug(err, exc_info=True)
 
 
+# Used as a context manager to step into a directory
+# do some work then return to the original directory.
+#
+# Args:
+#
+#     path (str): Absolute path to directory you want to change to
 class ChDir(object):
-    """Used as a context manager to step into a directory
-    do some work then return to the original directory.
 
-    Args:
-
-        path (str): Absolute path to directory you want to change to
-    """
     def __init__(self, path):
         self.old_dir = os.getcwd()
         self.new_dir = path

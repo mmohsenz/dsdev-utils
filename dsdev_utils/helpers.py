@@ -33,18 +33,17 @@ from dsdev_utils.exceptions import VersionError
 log = logging.getLogger(__name__)
 
 
+# Decompress gzip data
+#
+#   Args:
+#
+#       data (str): Gzip data
+#
+#
+#   Returns:
+#
+#       (data): Decompressed data
 def gzip_decompress(data):
-    """Decompress gzip data
-
-    Args:
-
-        data (str): Gzip data
-
-
-    Returns:
-
-        (data): Decompressed data
-    """
     # if isinstance(data, six.binary_type):
     #     data = data.decode()
     compressed_file = io.BytesIO()
@@ -60,7 +59,6 @@ def gzip_decompress(data):
     compressed_file.close()
     decompressed_file.close()
     return data
-
 
 
 def lazy_import(func):
@@ -129,15 +127,14 @@ class _LazyImport(object):
         return '_LazyImport: {}'.format(self._dsdev_lazy_name)
 
 
-
+# Normalizes version strings of different types. Examples
+# include 1.2, 1.2.1, 1.2b and 1.1.1b
+#
+# Args:
+#
+#     version (str): Version number to normalizes
 class Version(object):
-    """Normalizes version strings of different types. Examples
-    include 1.2, 1.2.1, 1.2b and 1.1.1b
 
-    Args:
-
-        version (str): Version number to normalizes
-    """
     v_re = re.compile('(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
                       '<patch>\d+)?-?(?P<release>[a,b,e,h,l'
                       ',p,t]+)?(?P<releaseversion>\d+)?')
@@ -255,18 +252,17 @@ class Version(object):
         return self.version_tuple >= obj.version_tuple
 
 
+# Provides access to dict by pass a specially made key to
+# the get method. Default key sep is "*". Example key would be
+# updates*mac*1.7.0 would access {"updates":{"mac":{"1.7.0": "hi there"}}}
+# and return "hi there"
+#
+# Kwargs:
+#
+#     dict_ (dict): Dict you would like easy asses to.
+#
+#     sep (str): Used as a delimiter between keys
 class EasyAccessDict(object):
-    """Provides access to dict by pass a specially made key to
-    the get method. Default key sep is "*". Example key would be
-    updates*mac*1.7.0 would access {"updates":{"mac":{"1.7.0": "hi there"}}}
-    and return "hi there"
-
-    Kwargs:
-
-        dict_ (dict): Dict you would like easy asses to.
-
-        sep (str): Used as a delimiter between keys
-    """
 
     def __init__(self, dict_=None, sep='*'):
         self.sep = sep
@@ -275,17 +271,16 @@ class EasyAccessDict(object):
         else:
             self.dict = dict_
 
+    # Retrive value from internal dict.
+    #
+    # args:
+    #
+    #     key (str): Key to access value
+    #
+    # Returns:
+    #
+    #     (object): Value of key if found or None
     def get(self, key):
-        """Retrive value from internal dict.
-
-        args:
-
-            key (str): Key to access value
-
-        Returns:
-
-            (object): Value of key if found or None
-        """
         try:
             layers = key.split(self.sep)
             value = self.dict

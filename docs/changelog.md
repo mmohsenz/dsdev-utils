@@ -5,7 +5,7 @@
 
 ###Fixed
 
-  - Correctly reporting architecture
+  - Correctly report architecture
 
 ## v0.9.0 - Master
 
