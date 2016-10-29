@@ -1,7 +1,7 @@
 clean:
 	python dev/clean.py
 
-deploy: pypi
+deploy: clean pypi
 	git push
 	git push --tags
 	twine upload dist/*
@@ -12,7 +12,7 @@ deps:
 	pip install -r dev/requirements.txt --upgrade
 
 pypi:
-	python setup.py sdist_wheel
+	python setup.py sdist
 
 register:
 	python setup.py register -r pypi
