@@ -21,39 +21,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 # --------------------------------------------------------------------------
+from __future__ import unicode_literals
 import platform
 import sys
 
 
-PLATFORM = None
-MACHINE = None
-
-
-def get_system():
-    global PLATFORM
-    if PLATFORM is not None:
-        return PLATFORM
-    if sys.platform == u'win32':
-        PLATFORM = u'win'
-    elif sys.platform == u'darwin':
-        PLATFORM = u'mac'
-    else:
-        if u'x86_64' in platform.uname():
-            PLATFORM = 'nix64'
-        elif u'arm' in platform.uname():
-            PLATFORM = u'arm'
-        else:
-            PLATFORM = u'nix'
-    return PLATFORM
+_PLATFORM = None
+_ARCHITECTURE = None
 
 
 def get_architecure():
-    global MACHINE
-    if MACHINE is not None:
-        return MACHINE
-    machine = platform.machine()
-    if u'64' in machine:
-        MACHINE = '64'
+    global _ARCHITECTURE
+    if _ARCHITECTURE is not None:
+        return _ARCHITECTURE
+    if '64bit' in platform.architecture()[0]:
+        _ARCHITECTURE = '64'
     else:
-        MACHINE = '32'
-    return MACHINE
+        _ARCHITECTURE = '32'
+    return _ARCHITECTURE
+
+
+def get_system():
+    global _PLATFORM
+    if _PLATFORM is not None:
+        return _PLATFORM
+    if sys.platform == 'win32':
+        _PLATFORM = 'win'
+    elif sys.platform == 'darwin':
+        _PLATFORM = 'mac'
+    else:
+        arch = get_architecure()
+        if 'arm' in platform.uname()[4]:
+            _PLATFORM = 'arm'
+            if arch == '64':
+                _PLATFORM += arch
+        else:
+            _PLATFORM = 'nix'
+            if arch == '64':
+                _PLATFORM += arch
+    return _PLATFORM

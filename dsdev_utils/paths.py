@@ -35,12 +35,13 @@ log = logging.getLogger(__name__)
 
 # ToDo: Remove in v2.0
 def warn():
-    warnings.warn('Will be remove in v2.0: app_cwd moved to dsdev_utils.app.app_cwd',
-                  DeprecationWarning)
+    warnings.warn('Will be remove in v2.0: app_cwd moved to '
+                  'dsdev_utils.app.app_cwd', DeprecationWarning)
     return _app_cwd()
 
 app_cwd = warn()
 # End ToDo
+
 
 def get_mac_dot_app_dir(directory):
     """Returns parent directory of mac .app
