@@ -137,7 +137,7 @@ class Version(object):
 
     v_re = re.compile('(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
                       '<patch>\d+)?-?(?P<release>[a,b,e,h,l'
-                      ',p,t]+)?(?P<releaseversion>\d+)?')
+                      ',p,t]+)?-?(?P<releaseversion>\d+)?')
 
     v_re_big = re.compile('(?P<major>\d+)\.(?P<minor>\d+)\.'
                           '(?P<patch>\d+)\.(?P<release>\d+)'
