@@ -1,10 +1,16 @@
 # Changelog
 
-## v0.9.4 - Master
+## v0.9.5 - Master
 ####* This version is not yet released and is under active development.
 
+## v0.9.4 - 2017/01/20
 
-## v0.9.3 - Master
+###Fixed
+
+    - Changelog
+
+
+## v0.9.3 - 2017/01/20
 
 ###Fixed
 
