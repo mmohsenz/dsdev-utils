@@ -3,6 +3,10 @@
 ## v0.9.5 - Master
 ####* This version is not yet released and is under active development.
 
+###Updated
+
+    - Makefile
+
 ## v0.9.4 - 2017/01/20
 
 ###Fixed
