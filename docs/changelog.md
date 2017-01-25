@@ -1,7 +1,13 @@
 # Changelog
 
-## v0.9.5 - Master
+## v0.9.7 - Master
 ####* This version is not yet released and is under active development.
+
+## v0.9.6 - 2017/01/24
+
+###Fixed
+
+    - Setting pre-release when parsing an internal version string
 
 
 ## v0.9.5 - 2017/01/24
