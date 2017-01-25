@@ -144,6 +144,7 @@ class Version(object):
                           '\.(?P<releaseversion>\d+)')
 
     def __init__(self, version):
+        self.original_version = version
         self._parse_version_str(version)
         self.version_str = None
 
