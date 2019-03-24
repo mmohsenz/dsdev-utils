@@ -3,10 +3,10 @@ sudo: false
 cache: pip
 
 matrix:
-  allow_failures:
-      - python: "nightly"
-      - os: osx
   fast_finish: true
+  allow_failures:
+    - python: nightly
+
   include:
     - python: 2.7
     - python: 3.4
@@ -17,39 +17,39 @@ matrix:
       sudo: true
     - python: nightly
     - os: osx
-    language: generic
-    python: "3.7"
-    env: "TOXENV=py37"
-    install:
-      - brew update
-      - brew upgrade python
-      - python3 -m venv venv
-      - source venv/bin/activate
-      - pip3 install --upgrade pip
-      - pip3 install -r tests/requirements.txt
-      - pip3 install -e .
-    script: pytest -n 4
-      - os: osx
-        language: generic
-        python: "2.7"
-        env: "TOXENV=py27"
-        install:
-          - brew update
-          - brew uninstall --ignore-dependencies python
-          - brew upgrade python@2
-          - pip2 install virtualenv
-          - python2 -m virtualenv venv
-          - source venv/bin/activate
-          - pip2 install --upgrade pip
-          - pip2 install -r tests/requirements.txt
-          - pip2 install -e .
-        script: pytest -n 4
+      language: generic
+      python: "3.7"
+      env: "TOXENV=py37"
+      install:
+        - brew update
+        - brew upgrade python
+        - python3 -m venv venv
+        - source venv/bin/activate
+        - pip3 install --upgrade pip
+        - pip3 install -r tests/requirements.txt
+        - pip3 install -e .
+      script: pytest -n 4 --cov --cov-config .coveragerc --cov-report xml --cov pyupdater --cov-append
+    - os: osx
+      language: generic
+      python: "2.7"
+      env: "TOXENV=py27"
+      install:
+        - brew update
+        - brew uninstall --ignore-dependencies python
+        - brew upgrade python@2
+        - pip2 install virtualenv
+        - python2 -m virtualenv venv
+        - source venv/bin/activate
+        - pip2 install --upgrade pip
+        - pip2 install -r tests/requirements.txt
+        - pip2 install -e .
+      script: pytest -n 4 --cov --cov-config .coveragerc --cov-report xml --cov pyupdater --cov-append
+
 
 install:
   - pip install --upgrade pip
-  - pip install -r dev/requirements.txt
-  - pip install -r equirements.txt
+  - pip install -r tests/requirements.txt
   - pip install -e .
+script: pytest -n 4 --cov --cov-config .coveragerc --cov-report xml --cov pyupdater --cov-append
+after_success: codecov
 
-script:
-  - pytest -n 4
