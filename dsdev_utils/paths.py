@@ -1,7 +1,7 @@
-# --------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2016 Digital Sapphire
+# Copyright (c) 2014-2019 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# --------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 import logging
 import os
 import shutil
 import sys
 import time
-import warnings
 
-from dsdev_utils.app import _app_cwd
+import six
+
 
 log = logging.getLogger(__name__)
-
-
-# ToDo: Remove in v2.0
-def warn():
-    warnings.warn('Will be remove in v2.0: app_cwd moved to '
-                  'dsdev_utils.app.app_cwd', DeprecationWarning)
-    return _app_cwd()
-
-app_cwd = warn()
-# End ToDo
 
 
 def get_mac_dot_app_dir(directory):
@@ -92,6 +82,9 @@ def remove_any(path):
 class ChDir(object):
 
     def __init__(self, path):
+        if six.PY2:
+            path = str(path)
+
         self.old_dir = os.getcwd()
         self.new_dir = path
 

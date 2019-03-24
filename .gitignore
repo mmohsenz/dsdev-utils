@@ -7,6 +7,8 @@
 
 .coverage
 
+.idea
+
 build
 
 cover

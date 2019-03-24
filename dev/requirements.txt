@@ -1,4 +1,5 @@
 coverage
+pathlib
 pytest
 pytest-cov
 pytest-httpbin

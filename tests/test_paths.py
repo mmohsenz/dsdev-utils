@@ -21,6 +21,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 # --------------------------------------------------------------------------
+try:
+    from pathlib2 import Path
+except ImportError:
+    from pathlib import Path
+
 import os
 
 from dsdev_utils.paths import ChDir, get_mac_dot_app_dir
@@ -32,7 +37,6 @@ def test_get_mac_app_dir():
         assert get_mac_dot_app_dir(path) == main
 
 
-
 def test_chdir(cleandir):
     new_dir = 'temp'
     og_dir = os.getcwd()
@@ -42,3 +46,14 @@ def test_chdir(cleandir):
     with ChDir(new_dir):
         assert os.getcwd() == new_dir
     assert og_dir == os.getcwd()
+
+
+def test_chdir_pathlib(cleandir):
+    new_dir = Path(os.getcwd(), 'temp')
+    og_dir = os.getcwd()
+    if not os.path.exists(str(new_dir)):
+        os.mkdir(str(new_dir))
+
+    with ChDir(new_dir):
+        assert os.getcwd() == str(new_dir)
+    assert  og_dir == os.getcwd()

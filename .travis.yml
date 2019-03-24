@@ -1,14 +1,6 @@
 language: python
-
-# Use the new container-based Travis infrastructure.
 sudo: false
-
-# Cache pip packages. Explicitly name the pip-cache directory since we
-# use a custom `install` step which annuls `cache: pip`.
-cache:
-  directories:
-    - $HOME/.cache/pip
-    - $HOME/.pip-accel
+cache: pip
 
 # Try OS X.
 os:
@@ -21,40 +13,55 @@ env:
 #  - PYCRYPTO_VERSION=2.4.1
 #  - PYCRYPTO_VERSION=2.6.1
 
-python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "nightly"
-
 matrix:
   allow_failures:
-      # Just tests how PyInstaller performs with upcoming Python 3.6
       - python: "nightly"
-      # Ignore failures from OS X.
       - os: osx
+  fast_finish: true
+  include:
+    - python: 2.7
+    - python: 3.4
+    - python: 3.5
+    - python: 3.6
+    - python: 3.7
+      dist: xenial
+      sudo: true
+    - python: nightly
+    - os: osx
+    language: generic
+    python: "3.7"
+    env: "TOXENV=py37"
+    install:
+      - brew update
+      - brew upgrade python
+      - python3 -m venv venv
+      - source venv/bin/activate
+      - pip3 install --upgrade pip
+      - pip3 install -r tests/requirements.txt
+      - pip3 install -e .
+    script: pytest -n 4
+      - os: osx
+        language: generic
+        python: "2.7"
+        env: "TOXENV=py27"
+        install:
+          - brew update
+          - brew uninstall --ignore-dependencies python
+          - brew upgrade python@2
+          - pip2 install virtualenv
+          - python2 -m virtualenv venv
+          - source venv/bin/activate
+          - pip2 install --upgrade pip
+          - pip2 install -r tests/requirements.txt
+          - pip2 install -e .
+        script: pytest -n 4
 
 
 install:
-  # Install PyEnv
-  - export PATH="/home/travis/.pyenv/bin:$PATH"
-  - eval "$(pyenv init -)"
-  - eval "$(pyenv virtualenv-init -)"
-  - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-
-  - pip install tox-travis
-
-  # Install dependencies for tests. Use pip-accel to cache compiled
-  # packages and safe recompiling each time.
-  # Download-progress bars break Travis's log view. Disable them by
-  # piping output through another program (if output is not a tty, no
-  # progress bars)
-  - pip install pip-accel | cat
-  - pip-accel install -r dev/requirements.txt | cat
-  - pip-accel install -r requirements.txt | cat
+  - pip install --upgrade pip
+  - pip install -r dev/requirements.txt
+  - pip install -r equirements.txt
+  - pip install -e .
 
 script:
-  # Run tests and speed them up by sending them to multiple CPUs.
-  # Run unitttest first.
-  - tox
+  - pytest -n 4
