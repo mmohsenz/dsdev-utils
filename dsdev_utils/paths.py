@@ -48,6 +48,8 @@ def get_mac_dot_app_dir(directory):
 
 
 def remove_any(path):
+    if six.PY2:
+        path = str(path)
 
     def _remove_any(x):
         if os.path.isdir(x):
