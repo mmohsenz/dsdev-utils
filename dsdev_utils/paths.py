@@ -91,9 +91,9 @@ class ChDir(object):
         self.new_dir = path
 
     def __enter__(self):
-        log.debug(u'Changing to Directory --> {}'.format(self.new_dir))
+        log.debug('Changing to Directory --> {}'.format(self.new_dir))
         os.chdir(self.new_dir)
 
     def __exit__(self, *args, **kwargs):
-        log.debug(u'Moving back to Directory --> {}'.format(self.old_dir))
+        log.debug('Moving back to Directory --> {}'.format(self.old_dir))
         os.chdir(self.old_dir)
