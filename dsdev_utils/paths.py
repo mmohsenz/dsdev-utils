@@ -48,7 +48,7 @@ def get_mac_dot_app_dir(directory):
 
 
 def remove_any(path):
-    if six.PY2:
+    if six.PY2 or sys.version_info[1] == 5:
         path = str(path)
 
     def _remove_any(x):
@@ -78,7 +78,7 @@ def remove_any(path):
 class ChDir(object):
 
     def __init__(self, path):
-        if six.PY2:
+        if six.PY2 or sys.version_info[1] == 5:
             path = str(path)
 
         self.old_dir = os.getcwd()
