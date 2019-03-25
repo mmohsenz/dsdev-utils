@@ -23,7 +23,6 @@
 # ------------------------------------------------------------------------------
 import logging
 import os
-from pathlib import PureWindowsPath
 import shutil
 import sys
 import time
@@ -85,9 +84,6 @@ def remove_any(path):
 class ChDir(object):
 
     def __init__(self, path):
-        if sys.platform == 'win32':
-            path = PureWindowsPath(path)
-
         if six.PY2:
             path = str(path)
 

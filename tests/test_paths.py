@@ -56,4 +56,4 @@ def test_chdir_pathlib(cleandir):
 
     with ChDir(new_dir):
         assert os.getcwd() == str(new_dir)
-    assert og_dir == os.getcwd()
+    assert  og_dir == os.getcwd()
