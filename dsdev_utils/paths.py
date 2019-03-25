@@ -92,6 +92,7 @@ class ChDir(object):
 
     def __enter__(self):
         log.debug('Changing to Directory --> {}'.format(self.new_dir))
+        print(self.new_dir)
         os.chdir(self.new_dir)
 
     def __exit__(self, *args, **kwargs):
