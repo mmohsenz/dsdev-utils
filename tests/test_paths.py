@@ -32,9 +32,9 @@ from dsdev_utils.paths import ChDir, get_mac_dot_app_dir
 
 
 def test_get_mac_app_dir():
-        main = 'Main'
-        path = os.path.join(main, 'Contents', 'MacOS', 'app')
-        assert get_mac_dot_app_dir(path) == main
+    main = 'Main'
+    path = os.path.join(main, 'Contents', 'MacOS', 'app')
+    assert get_mac_dot_app_dir(path) == main
 
 
 def test_chdir(cleandir):
@@ -56,4 +56,4 @@ def test_chdir_pathlib(cleandir):
 
     with ChDir(new_dir):
         assert os.getcwd() == str(new_dir)
-    assert  og_dir == os.getcwd()
+    assert og_dir == os.getcwd()
