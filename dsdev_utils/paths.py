@@ -78,7 +78,7 @@ def remove_any(path):
 class ChDir(object):
 
     def __init__(self, path):
-        if six.PY2 or sys.version_info[1] == 5:
+        if six.PY2 or sys.version_info[1] in [4, 5]:
             path = str(path)
 
         self.old_dir = os.getcwd()
