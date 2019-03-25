@@ -22,7 +22,6 @@
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
 from __future__ import print_function
-
 import logging
 try:
     import msvcrt

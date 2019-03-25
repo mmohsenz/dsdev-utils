@@ -22,9 +22,11 @@
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
 from __future__ import unicode_literals
+import logging
 import platform
 import sys
 
+log = logging.getLogger(__name__)
 
 _PLATFORM = None
 _ARCHITECTURE = None

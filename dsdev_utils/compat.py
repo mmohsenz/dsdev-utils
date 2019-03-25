@@ -22,12 +22,15 @@
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
 import chardet
+import logging
 
 import six
 
 if not six.PY2:
     # Helper for Python 2 and 3 compatibility
     unicode = str
+
+log = logging.getLogger(__name__)
 
 
 def make_compat_str(in_str):
