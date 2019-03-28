@@ -51,6 +51,9 @@ def remove_any(path):
     if six.PY2 or sys.version_info[1] == 5:
         path = str(path)
 
+    if not os.path.exists(path):
+        return
+
     def _remove_any(x):
         if os.path.isdir(x):
             shutil.rmtree(x, ignore_errors=True)
