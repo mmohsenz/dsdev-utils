@@ -213,6 +213,9 @@ class Version(object):
         elif ext == '.gz':
             log.debug('Removed ".tar.gz"')
             version = version[:-7]
+        elif ext == '.bz2':
+            log.debug('Removed ".tar.bz2"')
+            version = version[:-8]
         count = version.count('.')
         # There will be 4 dots when version is passed
         # That was created with Version object.
