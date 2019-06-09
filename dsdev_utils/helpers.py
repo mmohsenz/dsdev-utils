@@ -135,13 +135,13 @@ class _LazyImport(object):
 #     version (str): Version number to normalizes
 class Version(object):
 
-    v_re = re.compile('(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
-                      '<patch>\d+)?-?(?P<release>[a,b,e,h,l'
-                      ',p,t]+)?-?(?P<releaseversion>\d+)?')
+    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
+                      r'<patch>\d+)?-?(?P<release>[abehl'
+                      r'pt]+)?-?(?P<releaseversion>\d+)?')
 
-    v_re_big = re.compile('(?P<major>\d+)\.(?P<minor>\d+)\.'
-                          '(?P<patch>\d+)\.(?P<release>\d+)'
-                          '\.(?P<releaseversion>\d+)')
+    v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
+                          r'(?P<patch>\d+)\.(?P<release>\d+)'
+                          r'\.(?P<releaseversion>\d+)')
 
     def __init__(self, version):
         self.original_version = version
@@ -149,7 +149,7 @@ class Version(object):
         self.version_str = None
 
     def _parse_version_str(self, version):
-        count = self._quick_sanatize(version)
+        count = self._quick_sanitize(version)
         try:
             # version in the form of 1.1, 1.1.1, 1.1.1-b1, 1.1.1a2
             if count == 4:
@@ -202,7 +202,8 @@ class Version(object):
         assert r is not None
         return r.groupdict()
 
-    def _quick_sanatize(self, version):
+    @staticmethod
+    def _quick_sanitize(version):
         log.debug('Version str: %s', version)
         ext = os.path.splitext(version)[1]
         # Removing file extensions, to ensure count isn't
