@@ -50,7 +50,10 @@ def get_system():
     if sys.platform == 'win32':
         _PLATFORM = 'win'
     elif sys.platform == 'darwin':
-        _PLATFORM = 'mac'
+        if platform.machine().startswith('arm'):
+            _PLATFORM = 'mac-arm'
+        else:
+            _PLATFORM = 'mac'
     else:
         arch = get_architecure()
         if 'arm' in platform.uname()[4]:
