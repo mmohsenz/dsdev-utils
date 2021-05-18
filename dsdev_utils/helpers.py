@@ -28,6 +28,7 @@ import os
 import re
 import sys
 from packaging.version import parse
+from deprecated import deprecated
 
 from dsdev_utils.exceptions import VersionError
 
@@ -136,11 +137,11 @@ class _LazyImport(object):
 #     version (str): Version number to normalizes
 class Version(object):
 
-    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
+    _v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
                       r'<patch>\d+)?-?(?P<release>[abehl'
                       r'pt]+)?-?(?P<releaseversion>\d+)?')
 
-    v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
+    _v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
                           r'(?P<patch>\d+)\.(?P<release>\d+)'
                           r'\.(?P<releaseversion>\d+)')
 
@@ -182,16 +183,6 @@ class Version(object):
                               self.release, self.release_version)
         self.version_str = str(self.version_tuple)
 
-    def _parse_version(self, version):
-        r = self.v_re.search(version)
-        assert r is not None
-        return r.groupdict()
-
-    def _parse_parsed_version(self, version):
-        r = self.v_re_big.search(version)
-        assert r is not None
-        return r.groupdict()
-
     @staticmethod
     def _quick_sanitize(version):
         log.debug('Version str: %s', version)
@@ -217,6 +208,16 @@ class Version(object):
             log.debug(msg)
             raise VersionError(msg)
         return count
+
+    @property
+    @deprecated(version='1.1.0', reason="This attribute is deprecated")
+    def v_re(self):
+        return Version._v_re
+
+    @property
+    @deprecated(version='1.1.0', reason="This attribute is deprecated")
+    def v_re_big(self):
+        return Version._v_re_big
 
     def __str__(self):
         return '.'.join(map(str, self.version_tuple))

@@ -31,6 +31,21 @@ log = logging.getLogger()
 
 
 class TestVerson(object):
+    def test_depreciated(self):
+        with pytest.warns(DeprecationWarning) as record:
+            v = Version('1.2.3')
+            v.v_re.search('1.2.3')
+        assert len(record) == 1
+        message = "Call to deprecated function (or staticmethod) v_re"
+        assert record[0].message.args[0][0:len(message)] == message
+
+        with pytest.warns(DeprecationWarning) as record:
+            v = Version('1.2.3')
+            v.v_re_big.search('1.2.3')
+        assert len(record) == 1
+        message = "Call to deprecated function (or staticmethod) v_re_big"
+        assert record[0].message.args[0][0:len(message)] == message
+
     def test_version_short(self):
         assert Version('1.1') > Version('1.1beta1')
         assert Version('1.2.1beta1') < Version('1.2.1')
