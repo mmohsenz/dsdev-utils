@@ -27,6 +27,8 @@ import logging
 import os
 import re
 import sys
+from packaging.version import parse
+from deprecated import deprecated
 
 from dsdev_utils.exceptions import VersionError
 
@@ -135,98 +137,61 @@ class _LazyImport(object):
 #     version (str): Version number to normalizes
 class Version(object):
 
-    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
+    _v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
                       r'<patch>\d+)?-?(?P<release>[abehl'
                       r'pt]+)?-?(?P<releaseversion>\d+)?')
 
-    v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
+    _v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
                           r'(?P<patch>\d+)\.(?P<release>\d+)'
                           r'\.(?P<releaseversion>\d+)')
 
     def __init__(self, version):
         self.original_version = version
-        self._parse_version_str(version)
         self.version_str = None
+        self._parse_version_str(version)
 
     def _parse_version_str(self, version):
-        count = self._quick_sanitize(version)
-        try:
-            # version in the form of 1.1, 1.1.1, 1.1.1-b1, 1.1.1a2
-            if count == 4:
-                version_data = self._parse_parsed_version(version)
-            else:
-                version_data = self._parse_version(version)
-        except AssertionError:
-            raise VersionError('Cannot parse version')
-
-        self.major = int(version_data.get('major', 0))
-        self.minor = int(version_data.get('minor', 0))
-        patch = version_data.get('patch')
-        if patch is None:
-            self.patch = 0
-        else:
-            self.patch = int(patch)
-        release = version_data.get('release')
+        version_data = parse(version)
+        self.major = version_data.major
+        self.minor = version_data.minor
+        self.patch = version_data.micro
         self.channel = 'stable'
-        if release is None:
+        if not version_data.is_prerelease and not version_data.is_postrelease:
             self.release = 2
-        # Convert to number for easy comparison and sorting
-        elif release in ['b', 'beta', '1']:
+            self.release_version = 0
+        elif version_data.is_postrelease:
+            self.release = 2
+            self.release_version = version_data.post
+        elif version_data.is_devrelease:
+            self.release = 3
+            self.channel = 'dev'
+            self.release_version = version_data.dev
+        elif version_data.pre[0] == 'b':
             self.release = 1
             self.channel = 'beta'
-        elif release in ['a', 'alpha', '0']:
+            self.release_version = version_data.pre[1]
+        elif version_data.pre[0] == 'a':
             self.release = 0
             self.channel = 'alpha'
+            self.release_version = version_data.pre[1]
         else:
             log.debug('Setting release as stable. '
                       'Disregard if not prerelease')
             # Marking release as stable
             self.release = 2
-
-        release_version = version_data.get('releaseversion')
-        if release_version is None:
-            self.release_version = 0
-        else:
-            self.release_version = int(release_version)
         self.version_tuple = (self.major, self.minor, self.patch,
                               self.release, self.release_version)
         self.version_str = str(self.version_tuple)
 
-    def _parse_version(self, version):
-        r = self.v_re.search(version)
-        assert r is not None
-        return r.groupdict()
+    @property
+    @deprecated(version='1.1.0', reason="This attribute is deprecated")
+    def v_re(self):
+        return Version._v_re
 
-    def _parse_parsed_version(self, version):
-        r = self.v_re_big.search(version)
-        assert r is not None
-        return r.groupdict()
-
-    @staticmethod
-    def _quick_sanitize(version):
-        log.debug('Version str: %s', version)
-        ext = os.path.splitext(version)[1]
-        # Removing file extensions, to ensure count isn't
-        # contaminated
-        if ext == '.zip':
-            log.debug('Removed ".zip"')
-            version = version[:-4]
-        elif ext == '.gz':
-            log.debug('Removed ".tar.gz"')
-            version = version[:-7]
-        elif ext == '.bz2':
-            log.debug('Removed ".tar.bz2"')
-            version = version[:-8]
-        count = version.count('.')
-        # There will be 4 dots when version is passed
-        # That was created with Version object.
-        # 1.1 once parsed will be 1.1.0.0.0
-        if count not in [1, 2, 4]:
-            msg = ('Incorrect version format. 1 or 2 dots '
-                   'You have {} dots'.format(count))
-            log.debug(msg)
-            raise VersionError(msg)
-        return count
+    @property
+    @deprecated(version='1.1.0', reason="This attribute is deprecated")
+    def v_re_big(self):
+        return Version._v_re_big
 
     def __str__(self):
         return '.'.join(map(str, self.version_tuple))
