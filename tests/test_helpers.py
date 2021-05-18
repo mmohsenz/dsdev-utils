@@ -44,10 +44,54 @@ class TestVerson(object):
     def test_version(self):
         assert Version('5.0') == Version('5.0')
         assert Version('4.5') != Version('5.1')
-        with pytest.raises(VersionError):
-            Version('1')
-        with pytest.raises(VersionError):
-            Version('1.1.1.1')
+    def test_version_original(self):
+        assert Version('5.0').original_version == '5.0'
+
+    def test_version_release(self):
+        assert Version('5.0').release == 2
+        assert Version('5.0.0a').release == 0
+        assert Version('5.0.0b').release == 1
+    def test_version_major(self):
+        assert Version('5.0').major == 5
+        assert Version('5.0').major != 1
+        assert Version('5.0').major != '5'
+        assert Version('9999.5234.123').major == 9999
+    def test_version_minor(self):
+        assert Version('5.3').minor == 3
+        assert Version('5.3').minor != '3'
+        assert Version('5.3').minor != 0
+        assert Version('2021.987654321.123').minor == 987654321
+    def test_version_tuple(self):
+        assert Version('1.2').version_tuple == (1,2,0,2,0)
+        assert Version('1.2.0a').version_tuple == (1,2,0,0,0)
+        assert Version('1.2.0b').version_tuple == (1,2,0,1,0)
+        assert Version('1.2.1').version_tuple == (1,2,1,2,0)
+        assert Version('1.2.1-9').version_tuple == (1,2,1,2,9)
+        assert Version('1.2.1-a7').version_tuple == (1,2,1,0,7)
+    def test_version_channel(self):
+        assert Version('2.2').channel == 'stable'
+        assert Version('2.2.1').channel == 'stable'
+        assert Version('3.2.1a').channel == 'alpha'
+        assert Version('3.2.1alpha').channel == 'alpha'
+        assert Version('3.2.1b').channel == 'beta'
+        assert Version('4.3.2beta').channel == 'beta'
+        assert Version('4.3.2-b1').channel == 'beta'
+    def test_version_micro(self):
+        assert Version('6.5.4').patch == 4
+        assert Version('6.5.4').patch != '4'
+        assert Version('6.5.0').patch == 0
+        assert Version('6.5.0').patch != None
+        assert Version('6.5.1a').patch == 1
+        assert Version('6.5.0').patch != '1'
+        assert Version('2021.5234.123').patch == 123
+    def test_version_release_version(self):
+        assert Version('2021.02.22').release_version == 0
+        assert Version('2021.02.22').release_version != None
+        assert Version('10.0.1-b1').release_version == 1
+        assert Version('10.0.1-1').release_version != '1'
+        assert Version('10.0.1-b123').release_version == 123
+    def test_version_string(self):
+        assert Version('1.2.3').version_str == None
 
 
 class TestEasyAccessDict(object):
