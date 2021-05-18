@@ -10,3 +10,5 @@ six==1.15.0
     # via -r requirements.in
 packaging==20.9
     # via -r requirements.in
+Deprecated==1.2.12
+    # via -r requirements.in
