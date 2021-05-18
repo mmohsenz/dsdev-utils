@@ -183,32 +183,6 @@ class Version(object):
                               self.release, self.release_version)
         self.version_str = str(self.version_tuple)
 
-    @staticmethod
-    def _quick_sanitize(version):
-        log.debug('Version str: %s', version)
-        ext = os.path.splitext(version)[1]
-        # Removing file extensions, to ensure count isn't
-        # contaminated
-        if ext == '.zip':
-            log.debug('Removed ".zip"')
-            version = version[:-4]
-        elif ext == '.gz':
-            log.debug('Removed ".tar.gz"')
-            version = version[:-7]
-        elif ext == '.bz2':
-            log.debug('Removed ".tar.bz2"')
-            version = version[:-8]
-        count = version.count('.')
-        # There will be 4 dots when version is passed
-        # That was created with Version object.
-        # 1.1 once parsed will be 1.1.0.0.0
-        if count not in [1, 2, 4]:
-            msg = ('Incorrect version format. 1 or 2 dots '
-                   'You have {} dots'.format(count))
-            log.debug(msg)
-            raise VersionError(msg)
-        return count
-
     @property
     @deprecated(version='1.1.0', reason="This attribute is deprecated")
     def v_re(self):
