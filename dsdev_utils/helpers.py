@@ -147,8 +147,8 @@ class Version(object):
 
     def __init__(self, version):
         self.original_version = version
-        self._parse_version_str(version)
         self.version_str = None
+        self._parse_version_str(version)
 
     def _parse_version_str(self, version):
         version_data = parse(version)

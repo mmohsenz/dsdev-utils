@@ -125,7 +125,7 @@ class TestVerson(object):
         assert Version('5.1.2.dev999+a1b2c3d').release_version == 999
 
     def test_version_string(self):
-        assert Version('1.2.3').version_str == None
+        assert Version('1.2.3').version_str == '(1, 2, 3, 2, 0)'
 
 
 class TestEasyAccessDict(object):
