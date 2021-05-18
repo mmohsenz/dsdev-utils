@@ -18,6 +18,7 @@ setup(
     install_requires=[
         'chardet',
         'six',
+        'packaging',
         ],
     packages=find_packages(),
     classifiers=[
