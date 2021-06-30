@@ -169,9 +169,9 @@ class Version(object):
         release = version_data.get('release')
         self.channel = 'stable'
         if release is None:
-            self.release = 2
+            release = os.getenv('DEFAULT_RELEASE', '2')
         # Convert to number for easy comparison and sorting
-        elif release in ['b', 'beta', '1']:
+        if release in ['b', 'beta', '1']:
             self.release = 1
             self.channel = 'beta'
         elif release in ['a', 'alpha', '0', 'rc']:
