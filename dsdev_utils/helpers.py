@@ -136,8 +136,8 @@ class _LazyImport(object):
 class Version(object):
 
     v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
-                      r'<patch>\d+)?-?(?P<release>[abehl'
-                      r'pt]+)?-?(?P<releaseversion>\d+)?')
+                      r'<patch>\d+)?-?(?P<release>[abcehl'
+                      r'prt]+)?-?(?P<releaseversion>\d+)?')
 
     v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
                           r'(?P<patch>\d+)\.(?P<release>\d+)'
@@ -174,7 +174,7 @@ class Version(object):
         elif release in ['b', 'beta', '1']:
             self.release = 1
             self.channel = 'beta'
-        elif release in ['a', 'alpha', '0']:
+        elif release in ['a', 'alpha', '0', 'rc']:
             self.release = 0
             self.channel = 'alpha'
         else:
