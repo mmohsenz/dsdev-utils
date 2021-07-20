@@ -135,9 +135,9 @@ class _LazyImport(object):
 #     version (str): Version number to normalizes
 class Version(object):
 
-    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
-                      r'<patch>\d+)?-?(?P<release>[abcehl'
-                      r'prt]+)?-?(?P<releaseversion>\d+)?')
+    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)(\.(?P'
+                      r'<patch>\d+))?(-(?P<release>[abcehl'
+                      r'prt]+))?-?(?P<releaseversion>\d+)?')
 
     v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
                           r'(?P<patch>\d+)\.(?P<release>\d+)'
@@ -208,8 +208,8 @@ class Version(object):
         ext = os.path.splitext(version)[1]
         # Removing file extensions, to ensure count isn't
         # contaminated
-        if ext == '.zip':
-            log.debug('Removed ".zip"')
+        if ext in ('.zip', '.tar'):
+            log.debug('Removed ".zip/.tar"')
             version = version[:-4]
         elif ext == '.gz':
             log.debug('Removed ".tar.gz"')
